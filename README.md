@@ -5,6 +5,32 @@ A pizza application, used for testing out different patterns in software archite
 
 To use this repo please look at the available `Branches`. ie `dotnet-aws-microservice`, `go-aws-microservice`, here you will be able to run these independently for testing.
 
+## Pizza API Project Summary
+
+### Purpose
+The project serves as an API for a pizza ordering system, allowing customers to create accounts and place orders for pizzas.
+
+### Database
+- Uses AWS Aurora DB to store customer accounts and order records.
+
+### Logging
+- Sends logs to AWS DocumentDB for monitoring and analytics.
+
+### Notification System
+- Utilizes AWS SQS (Simple Queue Service) to queue messages when a pizza order has been initiated.
+- Further employs AWS SNS (Simple Notification Service) to notify users about the status of their orders.
+
+### Technologies
+- AWS Aurora DB
+- AWS DocumentDB
+- AWS SQS
+- AWS SNS
+
+### Features
+- Account creation for customers.
+- Pizza ordering functionality.
+- Real-time notifications for order status.
+
 
 ## Architecture 
 
