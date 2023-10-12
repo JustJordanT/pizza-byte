@@ -14,7 +14,7 @@ The project serves as an API for a pizza ordering system, allowing customers to 
 - Uses AWS Aurora DB to store customer accounts and order records.
 
 ### Logging
-- Sends logs to AWS DocumentDB for monitoring and analytics.
+- Sends logs to AWS DocumentDB for monitoring and analytics. Logging is a crucial aspect of any application for monitoring its behavior, debugging issues, and understanding usage patterns. In our Pizza API project, we're using AWS DocumentDB to store logs, which is a fully managed, MongoDB-compatible database service. 
 
 ### Notification System
 - Utilizes AWS SQS (Simple Queue Service) to queue messages when a pizza order has been initiated.
