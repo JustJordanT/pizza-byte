@@ -5,5 +5,5 @@ public record PutPizzaRequest(
     List<string> Toppings,
     string Crust,
     string Size,
-    double Price
+    decimal Price
 );

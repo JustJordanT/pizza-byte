@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using pizza_byte.api.Persistence;
 using pizza_byte.api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Services.AddSingleton<IPizzaService, PizzaService>();
+    builder.Services.AddScoped<IPizzaService, PizzaService>();
+    builder.Services.AddDbContext<PizzaDbContext>(optionsBuilder =>
+        optionsBuilder.UseSqlite("Data Source=pizza.db"));
 }
 
 // Add services to the container.

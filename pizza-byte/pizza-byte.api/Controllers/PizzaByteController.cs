@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using pizza_byte.api.Commons.Mappers;
 using pizza_byte.api.Models;
 using pizza_byte.api.Services;
 using pizza_byte.contracts.pizza_byte;
@@ -7,6 +8,7 @@ namespace pizza_byte.api.Controllers;
 
 
 [ApiController]
+[Route("api/pizza")]
 public class PizzaByteController : ControllerBase
 {
    
@@ -18,38 +20,20 @@ public class PizzaByteController : ControllerBase
         _pizzaService = pizzaService;
     }
 
-    [HttpPost("api/pizza")]
+    [HttpPost]
     public IActionResult PostPizza(PostPizzaRequest request)
     {
-        var pizza = new PizzaByte(
-            Guid.NewGuid(),
-            request.Name,
-            request.Toppings,
-            DateTime.UtcNow,
-            null,
-            DateTime.UtcNow,
-            request.Crust,
-            request.Price,
-            request.Size); 
+        var pizza = PizzaMapper.PostMapToPizzaByte(request); 
         
         // TODO: Save pizza to database
         _pizzaService.PostPizza(pizza);
         
-        var response = new PizzaResponse(
-            pizza.Id,
-            pizza.Name,
-            pizza.CreatedDateTime,
-            pizza.CompletedDateTime,
-            pizza.LastModifiedDateTime,
-            pizza.Toppings,
-            pizza.Crust,
-            pizza.Size,
-            pizza.Price);
+        var response = PizzaMapper.MapToPizzaResponse(pizza);
         
         return CreatedAtAction(nameof(GetPizza),response, new {id = pizza.Id});
     } 
 
-    [HttpGet("api/pizza/{id:guid}")]
+    [HttpGet("{id:guid}")]
     public IActionResult GetPizza(Guid id)
     {
         var pizza = _pizzaService.GetPizzaById(id);
@@ -68,14 +52,14 @@ public class PizzaByteController : ControllerBase
         return Ok(response);
     }
        
-    [HttpPut("api/pizza/{id:guid}")]
+    [HttpPut("{id:guid}")]
     public IActionResult PutPizza(Guid id, PutPizzaRequest request)
     {
         _pizzaService.PutPizza(id, request);
         return Ok();
     }
     
-    [HttpDelete("api/pizza/{id:guid}")]
+    [HttpDelete("{id:guid}")]
     public IActionResult DeletePizza(Guid id)
     {
         _pizzaService.DeletePizza(id);

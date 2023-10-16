@@ -9,5 +9,5 @@ public record PizzaResponse(
     List<string> Toppings,
     string Crust,
     string Size,
-    double Price
+    decimal Price
 );
