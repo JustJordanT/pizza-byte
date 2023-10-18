@@ -3,7 +3,7 @@ A pizza application, used for testing out different patterns in software archite
 
 ![DALL·E Cartoon Pizza Illustration](https://github.com/JustJordanT/pizza-byte/assets/38886930/063817f6-6a0d-4a90-80ff-0cf759ff7bfb)
 
-To use this repo please look at the available `Branches`. ie `dotnet-aws-microservice`, `go-aws-microservice`, here you will be able to run these independently for testing.
+To use this repo please look at the available `Branches`. ie `dotnet-aws-modular-monolith`, `dotnet-aws-microservice`, `go-aws-modular-monolith`, `go-aws-microservice`, here you will be able to run these independently for testing.
 
 ## Pizza API Project Summary
 
