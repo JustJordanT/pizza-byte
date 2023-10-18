@@ -6,6 +6,7 @@ namespace pizza_byte.api.Persistence;
 public class PizzaDbContext : DbContext
 {
     public DbSet<PizzaModel> Pizzas { get; set; } = null!;
+    public DbSet<CustomerModel> Customers { get; set; } = null!;
 
     public PizzaDbContext(DbContextOptions<PizzaDbContext> options) : base(options)
     {

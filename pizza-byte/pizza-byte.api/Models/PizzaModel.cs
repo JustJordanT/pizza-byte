@@ -11,14 +11,14 @@ public class PizzaModel
     }
     public PizzaModel(
         Guid id,
-        string name,
-        List<string> toppings,
+        string? name,
+        List<string>? toppings,
         DateTime createdDateTime,
         DateTime? completedDateTime,
         DateTime lastModifiedDateTime,
-        string crust,
+        string? crust,
         decimal price,
-        string size)
+        string? size)
     {
         Id = id;
         Name = name;
@@ -34,9 +34,9 @@ public class PizzaModel
     [JsonPropertyName("id")]
     public Guid Id { get; private set; }
     [JsonPropertyName("name")]
-    public string Name { get; internal set; }
+    public string? Name { get; internal set; }
     [JsonPropertyName("toppings")]
-    public List<string> Toppings { get; internal set; }
+    public List<string>? Toppings { get; internal set; }
     [JsonPropertyName("createdDateTime")]
     public DateTime CreatedDateTime { get; init;  } = DateTime.Now;
     [JsonPropertyName("completedDateTime")]
@@ -44,10 +44,10 @@ public class PizzaModel
     [JsonPropertyName("lastModifiedDateTime")]
     public DateTime LastModifiedDateTime { get; internal set; } = DateTime.Now;
     [JsonPropertyName("crust")]
-    public string Crust { get; internal set; }
+    public string? Crust { get; internal set; }
     [JsonPropertyName("price")]
     public decimal Price { get; internal set; }
     [JsonPropertyName("size")]
-    public string Size { get; internal set; }
+    public string? Size { get; internal set; }
 }
 

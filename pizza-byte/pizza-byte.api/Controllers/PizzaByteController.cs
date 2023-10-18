@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using pizza_byte.api.Commons.Exceptions;
 using pizza_byte.api.Commons.Mappers;
 using pizza_byte.api.Models;
 using pizza_byte.api.Services;
@@ -23,7 +24,7 @@ public class PizzaByteController : ControllerBase
     [HttpPost]
     public IActionResult PostPizza(PostPizzaRequest request)
     {
-        var pizza = PizzaMapper.PostMapToPizzaByte(request); 
+        var pizza = PizzaMapper.PostMapToPizzaModel(request); 
         
         // TODO: Save pizza to database
         _pizzaService.PostPizza(pizza);
@@ -36,20 +37,30 @@ public class PizzaByteController : ControllerBase
     [HttpGet("{id:guid}")]
     public IActionResult GetPizza(Guid id)
     {
-        var pizza = _pizzaService.GetPizzaById(id);
-        
-        var response = new PizzaResponse(
-            pizza.Id,
-            pizza.Name,
-            pizza.CreatedDateTime,
-            pizza.CompletedDateTime,
-            pizza.LastModifiedDateTime,
-            pizza.Toppings,
-            pizza.Crust,
-            pizza.Size,
-            pizza.Price);
-        
-        return Ok(response);
+        // TODO: might need to clean up this error handling
+        try
+        {
+            var pizza = _pizzaService.GetPizzaById(id);
+            var response = PizzaMapper.MapToPizzaResponse(pizza);
+            
+            return Ok(response);
+
+        }
+        catch (NullReferenceException ex)
+        {
+            // _logger.LogError(ex, "Pizza not found");
+            return StatusCode(500, new { message = "An unexpected error occurred", code = "INTERNAL_ERROR" });
+        }
+        catch (NotFoundException ex)
+        {
+            // _logger.LogError(ex, "Pizza not found");
+            return NotFound(new { message = "Pizza not found", code = "PIZZA_NOT_FOUND" });
+        }
+        // catch (Exception ex)
+        // {
+        //     // _logger.LogError(ex, "An unexpected error occurred");
+        //     return StatusCode(500, new { message = "An unexpected error occurred", code = "INTERNAL_ERROR" });
+        // }
     }
        
     [HttpPut("{id:guid}")]

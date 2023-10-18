@@ -13,7 +13,7 @@ public class PizzaConfigurations : IEntityTypeConfiguration<PizzaModel>
             .HasMaxLength(15);
         builder.Property(p => p.Toppings)
             .HasConversion(
-                v => string.Join(',', v),
+                v => string.Join(',', v!),
                 v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
             );
     }

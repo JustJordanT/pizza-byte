@@ -24,6 +24,10 @@ public class PizzaService : IPizzaService
 
     public PizzaModel GetPizzaById(Guid? id)
     {
+        if (_dbContext.Pizzas.Any(id => true))
+        {
+            throw new NullReferenceException(nameof(id));
+        }
         var pizza = _dbContext.Pizzas.Find(id);
         return pizza;
     }

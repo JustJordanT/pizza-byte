@@ -28,12 +28,17 @@ public class CustomerModel
    public string PhoneNumber { get; set; }
 
    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        
-   public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+   
+   public DateTime LastModifiedDateTime { get; set; } = DateTime.UtcNow;
 
+   // TODO : Needs to be added when OrderModel is created
    // Navigation properties for related entities
    // public virtual ICollection<Order> Orders { get; set; }
 
+   public CustomerModel()
+   {
+      
+   }
 
    public CustomerModel(string username, string passwordHash, string salt, string email, string phoneNumber)
    {

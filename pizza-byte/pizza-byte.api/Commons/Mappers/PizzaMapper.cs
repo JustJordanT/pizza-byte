@@ -7,7 +7,7 @@ namespace pizza_byte.api.Commons.Mappers;
 public static class PizzaMapper
 {
     
-    public static PizzaModel PostMapToPizzaByte(PostPizzaRequest request)
+    public static PizzaModel PostMapToPizzaModel(PostPizzaRequest request)
     { 
         var newPizza = new PizzaModel(
             Guid.NewGuid(),
@@ -30,7 +30,7 @@ public static class PizzaMapper
         pizza.Toppings = request.Toppings;
         pizza.Crust = request.Crust;
         pizza.Size = request.Size;
-        pizza.Price = Commons.Logic.Utils.UpdatePriceBasedOnSize(request.Size.ToLower());
+        pizza.Price = Commons.Logic.Utils.UpdatePriceBasedOnSize(request.Size?.ToLower() ?? throw new InvalidOperationException());
         
         return pizza;
     }
