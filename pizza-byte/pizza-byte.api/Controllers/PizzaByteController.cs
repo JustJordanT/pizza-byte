@@ -1,4 +1,6 @@
+using LanguageExt;
 using Microsoft.AspNetCore.Mvc;
+using pizza_byte.api.Commons.Errors;
 using pizza_byte.api.Commons.Exceptions;
 using pizza_byte.api.Commons.Mappers;
 using pizza_byte.api.Models;
@@ -38,29 +40,20 @@ public class PizzaByteController : ControllerBase
     public IActionResult GetPizza(Guid id)
     {
         // TODO: might need to clean up this error handling
-        try
-        {
-            var pizza = _pizzaService.GetPizzaById(id);
-            var response = PizzaMapper.MapToPizzaResponse(pizza);
+        var pizza = _pizzaService.GetPizzaById(id);
+        
+        var pizzaResult = pizza.Match(
+            Right: pizza =>
+            {
+                var pizzaModel = pizza;
+            },
+            Left: error => new PizzaNotFound());
+        
+        
+        
+        var response = PizzaMapper.MapToPizzaResponse(pizza);
             
-            return Ok(response);
-
-        }
-        catch (NullReferenceException ex)
-        {
-            // _logger.LogError(ex, "Pizza not found");
-            return StatusCode(500, new { message = "An unexpected error occurred", code = "INTERNAL_ERROR" });
-        }
-        catch (NotFoundException ex)
-        {
-            // _logger.LogError(ex, "Pizza not found");
-            return NotFound(new { message = "Pizza not found", code = "PIZZA_NOT_FOUND" });
-        }
-        // catch (Exception ex)
-        // {
-        //     // _logger.LogError(ex, "An unexpected error occurred");
-        //     return StatusCode(500, new { message = "An unexpected error occurred", code = "INTERNAL_ERROR" });
-        // }
+        return Ok(response);
     }
        
     [HttpPut("{id:guid}")]

@@ -1,3 +1,5 @@
+using LanguageExt;
+using pizza_byte.api.Commons.Errors;
 using pizza_byte.api.Models;
 using pizza_byte.api.Services;
 using pizza_byte.contracts.pizza_byte;
@@ -23,7 +25,7 @@ public static class PizzaMapper
         return newPizza;
     }
     
-    public static PizzaModel PutMapToPizzaModel(PizzaModel pizza, PutPizzaRequest request)
+    public static void PutMapToPizzaModel(PizzaModel pizza, PutPizzaRequest request)
     {
         pizza.Name = request.Name;
         pizza.LastModifiedDateTime = DateTime.UtcNow;
@@ -32,7 +34,6 @@ public static class PizzaMapper
         pizza.Size = request.Size;
         pizza.Price = Commons.Logic.Utils.UpdatePriceBasedOnSize(request.Size?.ToLower() ?? throw new InvalidOperationException());
         
-        return pizza;
     }
     
     public static PizzaResponse MapToPizzaResponse(PizzaModel pizza)

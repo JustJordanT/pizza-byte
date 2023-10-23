@@ -1,4 +1,6 @@
+using LanguageExt;
 using Microsoft.EntityFrameworkCore;
+using pizza_byte.api.Commons.Errors;
 using pizza_byte.api.Commons.Mappers;
 using pizza_byte.api.Models;
 using pizza_byte.api.Persistence;
@@ -18,32 +20,44 @@ public class PizzaService : IPizzaService
 
     public void PostPizza(PizzaModel pizza)
     {
+        
         _dbContext.Add(pizza);
         _dbContext.SaveChanges();
     }
 
-    public PizzaModel GetPizzaById(Guid? id)
+    // public PizzaModel GetPizzaById(Guid? id)
+    // {
+    //     if (_dbContext.Pizzas.Any(id => true))
+    //     {
+    //         throw new NullReferenceException(nameof(id));
+    //     }
+    //     var pizza = _dbContext.Pizzas.Find(id);
+    //     return pizza;
+    // }
+
+    public Either<Error, PizzaModel> GetPizzaById(Guid? id)
     {
-        if (_dbContext.Pizzas.Any(id => true))
-        {
-            throw new NullReferenceException(nameof(id));
-        }
         var pizza = _dbContext.Pizzas.Find(id);
+        if (pizza == null) return new PizzaNotFound();
+
         return pizza;
     }
 
     public void DeletePizza(Guid? id)
     {
-        var pizza = _dbContext.Pizzas.Find(id);
-        _dbContext.Remove(pizza);
+        var existingPizza = GetPizzaById(id);
+        _dbContext.Remove(existingPizza);
         _dbContext.SaveChanges();
     }
+    
 
-    public void PutPizza(Guid id, PutPizzaRequest request)
-    {
-        var existingPizza = GetPizzaById(id); // Fetch existing record
-        PizzaMapper.PutMapToPizzaModel(existingPizza, request);
-        _dbContext.SaveChanges();
-    }
+     public void PutPizza(Guid id, PutPizzaRequest request)
+     {
+         // Attempt to get the pizza by ID
+         var existingPizza = _dbContext.Pizzas.Find(id);
 
+         // var existingPizza = existingPizzaResult.Right(pizza => pizza);
+         PizzaMapper.PutMapToPizzaModel(existingPizza, request);
+         _dbContext.SaveChanges();
+     }
 }
