@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using LanguageExt;
 using Microsoft.AspNetCore.Mvc;
 using pizza_byte.api.Commons.Errors;
@@ -36,24 +37,18 @@ public class PizzaByteController : ControllerBase
         return CreatedAtAction(nameof(GetPizza),response, new {id = pizza.Id});
     } 
 
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(PizzaModel), StatusCodes.Status200OK)]
     [HttpGet("{id:guid}")]
     public IActionResult GetPizza(Guid id)
     {
         // TODO: might need to clean up this error handling
         var pizza = _pizzaService.GetPizzaById(id);
-        
-        var pizzaResult = pizza.Match(
-            Right: pizza =>
-            {
-                var pizzaModel = pizza;
-            },
-            Left: error => new PizzaNotFound());
-        
-        
-        
-        var response = PizzaMapper.MapToPizzaResponse(pizza);
-            
-        return Ok(response);
+
+        return pizza.Match<ActionResult>(
+           Ok,
+           e => NotFound()
+        );
     }
        
     [HttpPut("{id:guid}")]
