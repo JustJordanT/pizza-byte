@@ -36,9 +36,7 @@ public class PizzaByteController : ControllerBase
         
         return CreatedAtAction(nameof(GetPizza),response, new {id = pizza.Id});
     } 
-
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(PizzaModel), StatusCodes.Status200OK)]
+    
     [HttpGet("{id:guid}")]
     public IActionResult GetPizza(Guid id)
     {
