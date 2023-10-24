@@ -1,13 +1,14 @@
-using pizza_byte.api.Models;
+using pizza_byte.api.Entities;
 using pizza_byte.contracts.pizza_byte;
+using pizza_byte.contracts.pizza_byte.Customer;
 
 namespace pizza_byte.api.Commons.Mappers;
 
 public static class CustomerMapper
 {
-     public static CustomerModel PostMapToCustomerModel(PostCustomerRequest request)
+     public static Customer PostMapToCustomerModel(PostCustomerRequest request)
      {
-          var newCustomer = new CustomerModel(
+          var newCustomer = new Customer(
                request.UserName,
                string.Empty, 
                string.Empty, 
@@ -17,19 +18,22 @@ public static class CustomerMapper
           return newCustomer;
      }
      
-     public static CustomerResponse MapToCustomerResponse(CustomerModel customer)
+     public static CustomerResponse MapToCustomerResponse(Customer customer)
      {
-          var response = new CustomerResponse(
-               customer.Id,
-               customer.Username,
-               customer.Email,
-               customer.PhoneNumber,
-               customer.CreatedAt,
-               customer.LastModifiedDateTime);
+          var response = new CustomerResponse
+          {
+               Id = customer.Id,
+               UserName = customer.Username,
+               Email = customer.Email,
+               PhoneNumber = customer.PhoneNumber,
+               CreatedAt = customer.CreatedAt,
+               LastModifiedDateTime = customer.LastModifiedDateTime
+          };
+          
           return response;
      }
      
-     public static CustomerModel PutMapToCustomerModel(CustomerModel customer, PutCustomerRequest request)
+     public static Customer PutMapToCustomerModel(Customer customer, PutCustomerRequest request)
      {
           customer.Username = request.UserName;
           customer.Email = request.Email;

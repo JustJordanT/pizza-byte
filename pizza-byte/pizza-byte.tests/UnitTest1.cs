@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using pizza_byte.api.Controllers;
-using pizza_byte.api.Models;
+using pizza_byte.api.Entities;
 using pizza_byte.api.Services;
 using pizza_byte.contracts.pizza_byte;
 
@@ -43,5 +43,5 @@ public class UnitTest1
         // Assert.Equal(DateTime.MinValue.Date, response.GetType().GetProperty("completedDateTime").GetValue(response));
         // Assert.Equal(DateTime.UtcNow.Date, response.GetType().GetProperty("lastModifiedDateTime").GetValue(response));
 
-        mockPizzaService.Verify(service => service.PostPizza(It.IsAny<PizzaModel>()), Times.Once);
+        mockPizzaService.Verify(service => service.PostPizza(It.IsAny<Pizza>()), Times.Once);
     }}

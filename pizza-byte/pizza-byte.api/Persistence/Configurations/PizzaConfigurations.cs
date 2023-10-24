@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using pizza_byte.api.Models;
+using pizza_byte.api.Entities;
 
 namespace pizza_byte.api.Persistence.Configurations;
 
-public class PizzaConfigurations : IEntityTypeConfiguration<PizzaModel>
+public class PizzaConfigurations : IEntityTypeConfiguration<Pizza>
 {
-    public void Configure(EntityTypeBuilder<PizzaModel> builder)
+    public void Configure(EntityTypeBuilder<Pizza> builder)
     {
         builder.HasKey(p => p.Id);
         builder.Property(p => p.Name)

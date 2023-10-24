@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace pizza_byte.api.Models;
+namespace pizza_byte.api.Entities;
 
-public class CustomerModel
+public class Customer
 {
    [Key]
    public Guid Id { get; set; } = Guid.NewGuid();
@@ -35,12 +34,12 @@ public class CustomerModel
    // Navigation properties for related entities
    // public virtual ICollection<Order> Orders { get; set; }
 
-   public CustomerModel()
+   public Customer()
    {
       
    }
 
-   public CustomerModel(string username, string passwordHash, string salt, string email, string phoneNumber)
+   public Customer(string username, string passwordHash, string salt, string email, string phoneNumber)
    {
       Username = username;
       PasswordHash = passwordHash;

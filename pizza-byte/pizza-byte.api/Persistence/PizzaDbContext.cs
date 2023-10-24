@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using pizza_byte.api.Models;
+using pizza_byte.api.Entities;
 
 namespace pizza_byte.api.Persistence;
 
 public class PizzaDbContext : DbContext
 {
-    public DbSet<PizzaModel> Pizzas { get; set; } = null!;
-    public DbSet<CustomerModel> Customers { get; set; } = null!;
+    public DbSet<Pizza> Pizzas { get; set; } = null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
 
     public PizzaDbContext(DbContextOptions<PizzaDbContext> options) : base(options)
     {

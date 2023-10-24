@@ -17,7 +17,7 @@ namespace pizza_byte.api.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
 
-            modelBuilder.Entity("pizza_byte.api.Models.CustomerModel", b =>
+            modelBuilder.Entity("pizza_byte.api.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,45 +59,36 @@ namespace pizza_byte.api.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("pizza_byte.api.Models.PizzaModel", b =>
+            modelBuilder.Entity("pizza_byte.api.Entities.Pizza", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("CompletedDateTime")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "completedDateTime");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "createdDateTime");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Crust")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "crust");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModifiedDateTime")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "lastModifiedDateTime");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(15)
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "name");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "price");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Size")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "size");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Toppings")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "toppings");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

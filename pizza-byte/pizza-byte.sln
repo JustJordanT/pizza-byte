@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pizza-byte.api", "pizza-byte.api\pizza-byte.api.csproj", "{A9A46EAB-8AA6-4B78-BC38-7EF8A2E45E20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pizza-byte.contracts", "pizza-byte.contracts\pizza-byte.contracts.csproj", "{3156B9DB-900A-4BC7-9880-2B44E733725E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pizza-byte.models", "pizza-byte.models\pizza-byte.models.csproj", "{3156B9DB-900A-4BC7-9880-2B44E733725E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pizza-byte.tests", "pizza-byte.tests\pizza-byte.tests.csproj", "{BE038753-2311-447D-BC2E-33F41C1C9D2E}"
 EndProject

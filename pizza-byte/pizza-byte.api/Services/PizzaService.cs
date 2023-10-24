@@ -2,7 +2,7 @@ using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 using pizza_byte.api.Commons.Errors;
 using pizza_byte.api.Commons.Mappers;
-using pizza_byte.api.Models;
+using pizza_byte.api.Entities;
 using pizza_byte.api.Persistence;
 using pizza_byte.contracts.pizza_byte;
 
@@ -16,47 +16,52 @@ public class PizzaService : IPizzaService
     {
         _dbContext = dbContext ?? throw new NullReferenceException(nameof(PizzaDbContext));
     }
-    
-    public void PostPizza(PizzaModel pizza)
+
+
+    public void PostPizza(Pizza pizza)
     {
         
         _dbContext.Add(pizza);
         _dbContext.SaveChanges();
     }
 
-    // public PizzaModel GetPizzaById(Guid? id)
-    // {
-    //     if (_dbContext.Pizzas.Any(id => true))
-    //     {
-    //         throw new NullReferenceException(nameof(id));
-    //     }
-    //     var pizza = _dbContext.Pizzas.Find(id);
-    //     return pizza;
-    // }
 
-    public Either<Error, PizzaModel> GetPizzaById(Guid? id)
+    public Either<Error, PizzaResponse> GetPizzaById(Guid? id)
     {
-        var pizza = _dbContext.Pizzas.Find(id);
+        var pizza = _dbContext.Pizzas.AsNoTracking().FirstOrDefault(p => p.Id == id);
         if (pizza == null) return new PizzaNotFound();
-
-        return pizza;
+        
+        var response = PizzaMapper.MapToPizzaResponse(pizza); 
+        
+        return response;
     }
 
-    public void DeletePizza(Guid? id)
+    public Either<Error, PizzaResponse> DeletePizza(Guid? id)
     {
-        var existingPizza = GetPizzaById(id);
-        _dbContext.Remove(existingPizza);
+
+        var pizzaResult = _dbContext.Pizzas.FirstOrDefault(p => p.Id == id);
+        
+        if (pizzaResult == null) return new PizzaNotFound();
+        
+        _dbContext.Remove(pizzaResult);
+        
         _dbContext.SaveChanges();
+
+        return PizzaMapper.MapToPizzaResponse(pizzaResult);
     }
     
 
-     public void PutPizza(Guid id, PutPizzaRequest request)
+     public Either<Error, PizzaResponse> PutPizza(Guid id, PutPizzaRequest request)
      {
-         // Attempt to get the pizza by ID
-         var existingPizza = _dbContext.Pizzas.Find(id);
-
-         // var existingPizza = existingPizzaResult.Right(pizza => pizza);
+         
+         var existingPizza = _dbContext.Pizzas.FirstOrDefault(p => p.Id == id);
+         
+         if (existingPizza == null) return new PizzaNotFound();
+            
          PizzaMapper.PutMapToPizzaModel(existingPizza, request);
+         
          _dbContext.SaveChanges();
+         
+         return PizzaMapper.MapToPizzaResponse(existingPizza);
      }
 }

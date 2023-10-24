@@ -25,7 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\pizza-byte.api\pizza-byte.api.csproj" />
-      <ProjectReference Include="..\pizza-byte.contracts\pizza-byte.contracts.csproj" />
+      <ProjectReference Include="..\pizza-byte.models\pizza-byte.models.csproj" />
     </ItemGroup>
 
 </Project>

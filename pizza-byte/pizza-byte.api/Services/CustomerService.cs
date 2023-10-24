@@ -1,7 +1,8 @@
 using pizza_byte.api.Commons.Mappers;
-using pizza_byte.api.Models;
+using pizza_byte.api.Entities;
 using pizza_byte.api.Persistence;
 using pizza_byte.contracts.pizza_byte;
+using pizza_byte.contracts.pizza_byte.Customer;
 
 namespace pizza_byte.api.Services;
 
@@ -15,7 +16,7 @@ public class CustomerService : ICustomerService
         _dbContext = dbContext ?? throw new NullReferenceException(nameof(PizzaDbContext));
     }
 
-    public CustomerModel PostCustomer(PostCustomerRequest request)
+    public Customer PostCustomer(PostCustomerRequest request)
     {
         var customer = CustomerMapper.PostMapToCustomerModel(request);
         _dbContext.Customers.Add(customer);
@@ -23,7 +24,7 @@ public class CustomerService : ICustomerService
         return customer;
     }
 
-    public CustomerModel GetCustomerById(Guid? id)
+    public Customer GetCustomerById(Guid? id)
     {
         var customer = _dbContext.Customers.Find(id);
         if (customer != null) return customer;

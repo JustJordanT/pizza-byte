@@ -1,6 +1,6 @@
 using LanguageExt;
 using pizza_byte.api.Commons.Errors;
-using pizza_byte.api.Models;
+using pizza_byte.api.Entities;
 using pizza_byte.api.Services;
 using pizza_byte.contracts.pizza_byte;
 
@@ -9,9 +9,9 @@ namespace pizza_byte.api.Commons.Mappers;
 public static class PizzaMapper
 {
     
-    public static PizzaModel PostMapToPizzaModel(PostPizzaRequest request)
+    public static Pizza PostMapToPizzaModel(PostPizzaRequest request)
     { 
-        var newPizza = new PizzaModel(
+        var newPizza = new Pizza(
             Guid.NewGuid(),
             request.Name,
             request.Toppings,
@@ -25,7 +25,23 @@ public static class PizzaMapper
         return newPizza;
     }
     
-    public static void PutMapToPizzaModel(PizzaModel pizza, PutPizzaRequest request)
+    public static Pizza MapToPizzaModel(PizzaResponse request)
+    { 
+        var model = new Pizza(
+            request.Id,
+            request.Name,
+            request.Toppings,
+            request.CreatedDateTime,
+            request.CompletedDateTime, 
+            request.LastModifiedDateTime,
+            request.Crust,
+            request.Price,
+            request.Size.ToLower());
+
+        return model;
+    }
+    
+    public static void PutMapToPizzaModel(Pizza pizza, PutPizzaRequest request)
     {
         pizza.Name = request.Name;
         pizza.LastModifiedDateTime = DateTime.UtcNow;
@@ -36,18 +52,18 @@ public static class PizzaMapper
         
     }
     
-    public static PizzaResponse MapToPizzaResponse(PizzaModel pizza)
+    public static PizzaResponse MapToPizzaResponse(Pizza pizza)
     {
-        var response = new PizzaResponse(
-            pizza.Id,
-            pizza.Name,
-            pizza.CreatedDateTime,
-            pizza.CompletedDateTime,
-            pizza.LastModifiedDateTime,
-            pizza.Toppings,
-            pizza.Crust,
-            pizza.Size,
-            pizza.Price);
+        var response = new PizzaResponse();
+
+        response.Id = pizza.Id;
+        response.Name = pizza.Name;
+        response.CreatedDateTime = pizza.CreatedDateTime;
+        response.CompletedDateTime = pizza.CompletedDateTime;
+        response.Toppings = pizza.Toppings;
+        response.Crust = pizza.Crust;
+        response.Size = pizza.Size;
+        response.Price = pizza.Price;
         
         return response;
     }

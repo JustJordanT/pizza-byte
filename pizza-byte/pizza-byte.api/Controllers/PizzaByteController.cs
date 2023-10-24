@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using pizza_byte.api.Commons.Errors;
 using pizza_byte.api.Commons.Exceptions;
 using pizza_byte.api.Commons.Mappers;
-using pizza_byte.api.Models;
 using pizza_byte.api.Services;
 using pizza_byte.contracts.pizza_byte;
 
@@ -40,7 +39,6 @@ public class PizzaByteController : ControllerBase
     [HttpGet("{id:guid}")]
     public IActionResult GetPizza(Guid id)
     {
-        // TODO: might need to clean up this error handling
         var pizza = _pizzaService.GetPizzaById(id);
 
         return pizza.Match<ActionResult>(
@@ -52,14 +50,20 @@ public class PizzaByteController : ControllerBase
     [HttpPut("{id:guid}")]
     public IActionResult PutPizza(Guid id, PutPizzaRequest request)
     {
-        _pizzaService.PutPizza(id, request);
-        return Ok();
+       var pizza = _pizzaService.PutPizza(id, request);
+        return pizza.Match<ActionResult>(
+            Ok,
+            e => NotFound()
+        );
     }
     
     [HttpDelete("{id:guid}")]
     public IActionResult DeletePizza(Guid id)
     {
-        _pizzaService.DeletePizza(id);
-        return NoContent();
+        var pizza = _pizzaService.DeletePizza(id);
+        return pizza.Match<ActionResult>(
+            _ => NoContent(),
+            e => NotFound()
+        );
     }
 }
