@@ -12,13 +12,13 @@ namespace pizza_byte.api.Controllers;
 
 [ApiController]
 [Route("api/pizza")]
-public class PizzaByteController : ControllerBase
+public class PizzaController : ControllerBase
 {
    
     
     private readonly IPizzaService _pizzaService;
 
-    public PizzaByteController(IPizzaService pizzaService)
+    public PizzaController(IPizzaService pizzaService)
     {
         _pizzaService = pizzaService;
     }
@@ -26,14 +26,8 @@ public class PizzaByteController : ControllerBase
     [HttpPost]
     public IActionResult PostPizza(PostPizzaRequest request)
     {
-        var pizza = PizzaMapper.PostMapToPizzaModel(request); 
-        
-        // TODO: Save pizza to database
-        _pizzaService.PostPizza(pizza);
-        
-        var response = PizzaMapper.MapToPizzaResponse(pizza);
-        
-        return CreatedAtAction(nameof(GetPizza),response, new {id = pizza.Id});
+        var response = _pizzaService.PostPizza(request);
+        return CreatedAtAction(nameof(GetPizza),response, new {id = response.Id});
     } 
     
     [HttpGet("{id:guid}")]

@@ -18,11 +18,14 @@ public class PizzaService : IPizzaService
     }
 
 
-    public void PostPizza(Pizza pizza)
+    public PizzaResponse PostPizza(PostPizzaRequest request)
     {
-        
+        var pizza = PizzaMapper.PostMapToPizzaModel(request); 
+        var response = PizzaMapper.MapToPizzaResponse(pizza);
+ 
         _dbContext.Add(pizza);
         _dbContext.SaveChanges();
+        return response;
     }
 
 

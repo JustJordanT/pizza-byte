@@ -14,7 +14,7 @@ public class UnitTest1
     {
         // Arrange
         var mockPizzaService = new Mock<IPizzaService>();
-        var controller = new PizzaByteController(mockPizzaService.Object);
+        var controller = new PizzaController(mockPizzaService.Object);
         
         var request = new PostPizzaRequest("Margherita", new List<string> { "Cheese", "Jalapeno" }, "Thin", "M");
         

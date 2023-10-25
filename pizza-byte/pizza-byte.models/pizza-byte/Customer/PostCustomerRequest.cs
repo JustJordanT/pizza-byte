@@ -15,9 +15,4 @@ public class PostCustomerRequest
 
     [JsonPropertyName("password")]
     public string Password { get; init; } = null!;
-
-    [JsonPropertyName("createdAt")]
-    public DateTime CreatedAt { get; init; } = DateTime.Now;
-    [JsonPropertyName("lastModifiedDateTime")]
-    public DateTime LastModifiedDateTime { get; init; } = DateTime.Now;
 }

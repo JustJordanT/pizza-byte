@@ -1,16 +1,18 @@
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace pizza_byte.api.Entities;
 
 public class Pizza
 {
     public Guid Id { get; private set; }
-    public string? Name { get; internal set; }
-    public List<string>? Toppings { get; internal set; }
+    public string Name { get; set; } = null!;
+    public List<string>? Toppings { get; set; } = null!;
     public DateTime CreatedDateTime { get; init;  } = DateTime.Now;
     public DateTime? CompletedDateTime { get; set; }
-    public DateTime LastModifiedDateTime { get; internal set; } = DateTime.Now;
-    public string? Crust { get; internal set; }
-    public decimal Price { get; internal set; }
-    public string? Size { get; internal set; }
+    public DateTime LastModifiedDateTime { get; set; } = DateTime.Now;
+    public string? Crust { get; set; }
+    public decimal Price { get; set; }
+    public string? Size { get; set; }
     
     public Pizza()
     {
@@ -37,6 +39,18 @@ public class Pizza
         Crust = crust;
         Price = price;
         Size = size;
+    }
+    
+    public static void Configure(EntityTypeBuilder<Pizza> builder)
+    {
+        builder.HasKey(p => p.Id);
+        builder.Property(p => p.Name)
+            .HasMaxLength(15);
+        builder.Property(p => p.Toppings)
+            .HasConversion(
+                v => string.Join(',', v!),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
+            );
     }
 }
 

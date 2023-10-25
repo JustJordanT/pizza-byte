@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace pizza_byte.api.Entities;
 
@@ -32,7 +34,7 @@ public class Customer
 
    // TODO : Needs to be added when OrderModel is created
    // Navigation properties for related entities
-   // public virtual ICollection<Order> Orders { get; set; }
+   public virtual ICollection<Order> Orders { get; set; }
 
    public Customer()
    {
@@ -46,6 +48,34 @@ public class Customer
       Salt = salt;
       Email = email;
       PhoneNumber = phoneNumber;
+   }
+   
+   public static void Configure(EntityTypeBuilder<Customer> builder)
+   {
+      builder.ToTable("Customers");
+      builder.HasKey(c => c.Id);
+      builder.Property(c => c.Username)
+         .IsRequired()
+         .HasMaxLength(50);
+      builder.Property(c => c.PasswordHash)
+         .IsRequired()
+         .HasMaxLength(128);
+      builder.Property(c => c.Salt)
+         .IsRequired()
+         .HasMaxLength(64);
+      builder.Property(c => c.Email)
+         .IsRequired()
+         .HasMaxLength(50);
+      builder.Property(c => c.PhoneNumber)
+         .IsRequired()
+         .HasMaxLength(20);
+      builder.Property(c => c.CreatedAt)
+         .IsRequired();
+      builder.Property(c => c.LastModifiedDateTime)
+         .IsRequired();
+      builder.HasMany(c => c.Orders)
+         .WithOne(o => o.Customer!)
+         .HasForeignKey(o => o.CustomerId);
    }
 }
 

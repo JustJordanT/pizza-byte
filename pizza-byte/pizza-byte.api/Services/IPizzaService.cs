@@ -7,7 +7,7 @@ namespace pizza_byte.api.Services;
 
 public interface IPizzaService
 {
-    void PostPizza(Pizza pizza);
+    public PizzaResponse PostPizza(PostPizzaRequest request);
     Either<Error, PizzaResponse> GetPizzaById(Guid? id);
     Either<Error, PizzaResponse> DeletePizza(Guid? id);
     public Either<Error, PizzaResponse> PutPizza(Guid id, PutPizzaRequest request);

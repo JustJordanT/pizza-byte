@@ -7,6 +7,7 @@ public class PizzaDbContext : DbContext
 {
     public DbSet<Pizza> Pizzas { get; set; } = null!;
     public DbSet<Customer> Customers { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
 
     public PizzaDbContext(DbContextOptions<PizzaDbContext> options) : base(options)
     {
@@ -14,6 +15,8 @@ public class PizzaDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PizzaDbContext).Assembly);
+        modelBuilder.Entity<Pizza>(Pizza.Configure);
+        modelBuilder.Entity<Customer>(Customer.Configure);
+        modelBuilder.Entity<Order>(Order.Configure);
     }
 }
