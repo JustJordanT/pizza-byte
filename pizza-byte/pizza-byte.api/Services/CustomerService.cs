@@ -33,14 +33,14 @@ public class CustomerService : ICustomerService
 
     public async Task<Either<Error, Customer>> GetCustomerById(Guid? id, CancellationToken cancellationToken)
     {
-        var customer = _dbContext.Customers.AsNoTracking().FirstOrDefault(x => x.Id == id);
+        var customer = await _dbContext.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
         if (customer == null) return new CustomerNotFound();
         return customer;
     }
 
     public async Task<Either<Error, ActionResult>> PutCustomer(Guid id, PutCustomerRequest request, CancellationToken cancellationToken)
     {
-        var customer = _dbContext.Customers.AsNoTracking().FirstOrDefault(x => x.Id == id);
+        var customer = await _dbContext.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
         if (customer == null) return new CustomerNotFound();
         
         CustomerMapper.PutMapToCustomerModel(customer, request);
@@ -50,7 +50,7 @@ public class CustomerService : ICustomerService
     
     public async Task<Either<Error, ActionResult>> DeleteCustomer(Guid? id, CancellationToken cancellationToken)
     {
-        var customer = _dbContext.Customers.AsNoTracking().FirstOrDefault(x => x.Id == id);
+        var customer = await _dbContext.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
         if (customer == null) return new CustomerNotFound();
         _dbContext.Customers.Remove(customer);
         _dbContext.SaveChanges();

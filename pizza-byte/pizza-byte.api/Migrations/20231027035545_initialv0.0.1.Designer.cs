@@ -11,8 +11,8 @@ using pizza_byte.api.Persistence;
 namespace pizza_byte.api.Migrations
 {
     [DbContext(typeof(PizzaDbContext))]
-    [Migration("20231018024802_initialv1")]
-    partial class initialv1
+    [Migration("20231027035545_initialv0.0.1")]
+    partial class initialv001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace pizza_byte.api.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
 
-            modelBuilder.Entity("pizza_byte.api.Models.CustomerModel", b =>
+            modelBuilder.Entity("pizza_byte.api.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,7 +44,7 @@ namespace pizza_byte.api.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(15)
+                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Salt")
@@ -59,52 +59,94 @@ namespace pizza_byte.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("pizza_byte.api.Models.PizzaModel", b =>
+            modelBuilder.Entity("pizza_byte.api.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("CompletedDateTime")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "completedDateTime");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "createdDateTime");
+                        .HasColumnType("TEXT");
 
-                    b.Property<string>("Crust")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "crust");
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModifiedDateTime")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "lastModifiedDateTime");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PaymentType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("pizza_byte.api.Entities.Pizza", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("CompletedDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Crust")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModifiedDateTime")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "name");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "price");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Size")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "size");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Toppings")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "toppings");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("Pizzas");
+                });
+
+            modelBuilder.Entity("pizza_byte.api.Entities.Order", b =>
+                {
+                    b.HasOne("pizza_byte.api.Entities.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("pizza_byte.api.Entities.Customer", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,14 +2,14 @@ using System.Text.Json.Serialization;
 
 namespace pizza_byte.contracts.pizza_byte.Order;
 
-public class PutOrderRequest
+public class PostOrderRequest
 {
-    [JsonPropertyName("id")]
-    public Guid Id { get; set; }
-    [JsonPropertyName("totalPrice")]
+    [JsonPropertyName("CustomerId")]
+    public Guid CustomerId { get; set; }
+    [JsonPropertyName("TotalPrice")]
     public decimal TotalPrice { get; set; }
-    [JsonPropertyName("status")]
+    [JsonPropertyName("Status")]
     public string? Status { get; set; }
-    [JsonPropertyName("paymentType")]
+    [JsonPropertyName("PaymentType")]
     public string? PaymentType { get; set; }
 }
