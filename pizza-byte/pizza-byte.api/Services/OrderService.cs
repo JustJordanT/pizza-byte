@@ -22,36 +22,46 @@ public class OrderService : IOrderService
         _dbContext = dbContext ?? throw new NullReferenceException(nameof(PizzaDbContext));
     }
 
-    public void PostOrder(Order order)
+    public async Task<OrderResponse> PostOrder(PostOrderRequest request,
+        CancellationToken cancellationToken)
     {
-        // var customer = OrderMapper.PostMapToOrderModel(request);
-        _dbContext.Orders.Add(order);
-        _dbContext.SaveChanges();
+        var model = OrderMapper.PostRequestToOrderModel(request);
+        // if (model.CustomerId != CustomerId) return new CustomerNotFound();
+        // TODO: not sure how the error validation should be handled here.
+        await _dbContext.Orders.AddAsync(model, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        return OrderMapper.ModelToOrderResponse(model);
     }
 
-    public Either<Error, Order> GetOrderById(Guid? id)
+    public async Task<Either<Error, Order>> GetOrderById(Guid? id)
     {
-        var customer = _dbContext.Orders.AsNoTracking().FirstOrDefault(x => x.Id == id);
+        var order = await _dbContext.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (order == null) return new OrderNotFound();
+        return order;
+    }
+
+    public async Task<Either<Error, IActionResult>> PutOrder(Guid id, PutOrderRequest request,
+        CancellationToken cancellationToken)
+    {
+        var customer = await _dbContext.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id,
+            cancellationToken: cancellationToken);
         if (customer == null) return new OrderNotFound();
-        return customer;
+        
+        OrderMapper.PutMapToOrderModel(customer, request);
+        
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        return new NoContentResult();
     }
-
-    // public Either<Error, IActionResult> PutOrder(Guid id, PutOrderRequest request)
-    // {
-    //     var customer = _dbContext.Orders.AsNoTracking().FirstOrDefault(x => x.Id == id);
-    //     if (customer == null) return new OrderNotFound();
-    //     
-    //     OrderMapper.PutMapToOrderModel(customer, request);
-    //     
-    //     return new NoContentResult();
-    // }
     
-    public Either<Error, IActionResult> DeleteOrder(Guid? id)
+    public async Task<Either<Error, IActionResult>> DeleteOrder(Guid? id,
+        CancellationToken cancellationToken)
     {
-        var customer = _dbContext.Orders.AsNoTracking().FirstOrDefault(x => x.Id == id);
+        var customer = await _dbContext.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id,
+            cancellationToken: cancellationToken);
         if (customer == null) return new OrderNotFound();
         _dbContext.Orders.Remove(customer);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync(cancellationToken);
         
         return new NoContentResult();
     }

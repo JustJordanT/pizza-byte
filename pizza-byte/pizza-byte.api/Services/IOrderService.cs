@@ -9,8 +9,8 @@ namespace pizza_byte.api.Services;
 
 public interface IOrderService
 {
-    public void PostOrder(Order pizza);
-    Either<Error, Order> GetOrderById(Guid? id);
-    Either<Error, IActionResult> DeleteOrder(Guid? id);
-    // public Either<Error, IActionResult> PutOrder(Guid id, PutOrderRequest request);
+    public Task<OrderResponse> PostOrder(PostOrderRequest request, CancellationToken cancellationToken);
+    public Task<Either<Error, Order>> GetOrderById(Guid? id);
+    public Task<Either<Error, IActionResult>> DeleteOrder(Guid? id, CancellationToken cancellationToken);
+    public Task<Either<Error, IActionResult>> PutOrder(Guid id, PutOrderRequest request, CancellationToken cancellationToken);
 }
