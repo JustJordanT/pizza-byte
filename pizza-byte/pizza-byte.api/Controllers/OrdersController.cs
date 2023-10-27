@@ -22,7 +22,6 @@ public class OrderController : ControllerBase
 
     // POST Customer
     [HttpPost]
-    // TODO: trying to get this to work getting a 5xx.
     public async Task<IActionResult> PostCustomer(PostOrderRequest request)
     {
 
