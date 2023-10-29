@@ -13,4 +13,5 @@ public class PizzaResponse
     [JsonPropertyName("Crust")] public string? Crust { get; set; }
     [JsonPropertyName("Size")] public string? Size { get; set; }
     [JsonPropertyName("Price")] public decimal Price { get; set; }
+    [JsonPropertyName("cart_id")] public Guid CartId { get; init; }
 }

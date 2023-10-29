@@ -8,4 +8,5 @@ public class PostPizzaRequest
     [JsonPropertyName("toppings")] public List<string> Toppings { get; init; } = null!;
     [JsonPropertyName("crust")] public string? Crust { get; init; } = null!;
     [JsonPropertyName("size")] public string Size { get; init; } = null!;
+    [JsonPropertyName("cart_id")] public Guid CartId { get; init; }
 }

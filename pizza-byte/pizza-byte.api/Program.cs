@@ -17,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IPizzaService, PizzaService>();
     builder.Services.AddScoped<ICustomerService, CustomerService>();
     builder.Services.AddScoped<IOrderService, OrderService>();
+    builder.Services.AddScoped<ICartService, CartService>();
     builder.Services.AddDbContext<PizzaDbContext>(optionsBuilder =>
         optionsBuilder.UseSqlite("Data Source=pizza.db"));
 }
