@@ -34,4 +34,4 @@ The project serves as an API for a pizza ordering system, allowing customers to 
 
 ## Architecture 
 
-<img width="1206" alt="image" src="https://github.com/JustJordanT/pizza-byte/assets/38886930/baf37e39-5cf0-49d4-bb44-78d4e3a270cc">
+<img width="991" alt="image" src="https://github.com/JustJordanT/pizza-byte/assets/38886930/d60226d1-9214-4007-8cbb-e5c823b97e9c">
