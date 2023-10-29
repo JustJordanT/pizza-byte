@@ -23,7 +23,6 @@ The project serves as an API for a pizza ordering system, allowing customers to 
 ### Technologies
 - AWS Aurora DB
 - AWS Dynamo DB
-- AWS SQS
 - AWS SNS
 
 ### Features
