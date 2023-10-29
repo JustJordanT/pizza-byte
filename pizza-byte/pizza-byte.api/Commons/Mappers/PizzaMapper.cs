@@ -11,34 +11,35 @@ public static class PizzaMapper
     
     public static Pizza PostMapToPizzaModel(PostPizzaRequest request)
     { 
-        var newPizza = new Pizza(
-            Guid.NewGuid(),
-            request.Name,
-            request.Toppings,
-            DateTime.UtcNow,
-            DateTime.MinValue, 
-            DateTime.UtcNow,
-            request.Crust,
-            Commons.Logic.Utils.UpdatePriceBasedOnSize(request.Size.ToLower()),
-            request.Size.ToLower());
-
-        return newPizza;
+        return new Pizza
+        {
+            Name = request.Name,
+            Toppings = request.Toppings,
+            CreatedDateTime = DateTime.UtcNow,
+            CompletedDateTime = default,
+            LastModifiedDateTime = DateTime.UtcNow,
+            Crust = request.Crust,
+            Price = Commons.Logic.Utils.UpdatePriceBasedOnSize(request.Size?.ToLower() ?? throw new InvalidOperationException()),
+            Size = request.Size?.ToLower() ?? throw new InvalidOperationException(),
+            CartId = request.CartId,
+            Cart = null!
+        };
     }
     
     public static Pizza MapToPizzaModel(PizzaResponse request)
-    { 
-        var model = new Pizza(
-            request.Id,
-            request.Name,
-            request.Toppings,
-            request.CreatedDateTime,
-            request.CompletedDateTime, 
-            request.LastModifiedDateTime,
-            request.Crust,
-            request.Price,
-            request.Size.ToLower());
-
-        return model;
+    {
+        return  new Pizza
+        {
+            Name = request.Name,
+            Toppings = request.Toppings,
+            CreatedDateTime = request.CreatedDateTime,
+            CompletedDateTime = request.CompletedDateTime,
+            LastModifiedDateTime = request.LastModifiedDateTime,
+            Crust = request.Crust,
+            Price = request.Price,
+            Size = request.Size,
+            CartId = request.CartId
+        };
     }
     
     public static void PutMapToPizzaModel(Pizza pizza, PutPizzaRequest request)

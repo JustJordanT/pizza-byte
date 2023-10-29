@@ -17,6 +17,37 @@ namespace pizza_byte.api.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
 
+            modelBuilder.Entity("pizza_byte.api.Entities.Cart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Carts", (string)null);
+                });
+
             modelBuilder.Entity("pizza_byte.api.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -41,7 +72,7 @@ namespace pizza_byte.api.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(15)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Salt")
@@ -65,6 +96,9 @@ namespace pizza_byte.api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("CompletedDateTime")
                         .HasColumnType("TEXT");
 
@@ -83,10 +117,10 @@ namespace pizza_byte.api.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId")
+                        .IsUnique();
 
                     b.HasIndex("CustomerId");
 
@@ -97,6 +131,9 @@ namespace pizza_byte.api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CartId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("CompletedDateTime")
@@ -127,22 +164,64 @@ namespace pizza_byte.api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartId");
+
                     b.ToTable("Pizzas");
+                });
+
+            modelBuilder.Entity("pizza_byte.api.Entities.Cart", b =>
+                {
+                    b.HasOne("pizza_byte.api.Entities.Customer", "Customer")
+                        .WithMany("Carts")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("pizza_byte.api.Entities.Order", b =>
                 {
+                    b.HasOne("pizza_byte.api.Entities.Cart", "Cart")
+                        .WithOne("Order")
+                        .HasForeignKey("pizza_byte.api.Entities.Order", "CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("pizza_byte.api.Entities.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Cart");
+
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("pizza_byte.api.Entities.Pizza", b =>
+                {
+                    b.HasOne("pizza_byte.api.Entities.Cart", "Cart")
+                        .WithMany("Pizzas")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("pizza_byte.api.Entities.Cart", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
+
+                    b.Navigation("Pizzas");
                 });
 
             modelBuilder.Entity("pizza_byte.api.Entities.Customer", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
