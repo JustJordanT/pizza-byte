@@ -34,3 +34,25 @@ The project serves as an API for a pizza ordering system, allowing customers to 
 ## Architecture 
 
 <img width="991" alt="image" src="https://github.com/JustJordanT/pizza-byte/assets/38886930/d60226d1-9214-4007-8cbb-e5c823b97e9c">
+
+## Schema
+
+<img width="463" alt="image" src="https://github.com/JustJordanT/pizza-byte/assets/38886930/c4420c96-d57c-49f2-8380-b1f78e82c67e">
+
+- **Customers**:
+   - One-to-Many relationship with `Carts` through `CustomerId` in `Carts`.
+   - One-to-Many relationship with `Orders` through `CustomerId` in `Orders`.
+
+- **Carts**:
+   - Many-to-One relationship with `Customers` through `CustomerId`.
+   - One-to-Many relationship with `Pizzas` through `CartId` in `Pizzas`.
+   - One-to-One relationship with `Orders` through `Id` in `Orders`.
+
+- **Orders**:
+   - Many-to-One relationship with `Customers` through `CustomerId`.
+   - One-to-One relationship with `Carts` through `Id`.
+
+- **Pizzas**:
+   - Many-to-One relationship with `Carts` through `CartId`.
+
+The relationships are mainly centered around the `Customers`, `Carts`, `Orders`, and `Pizzas` tables, linking customers to their carts, orders, and the pizzas within those carts. This structure facilitates tracking of customer orders and the details of each order including the pizzas and their respective attributes.
