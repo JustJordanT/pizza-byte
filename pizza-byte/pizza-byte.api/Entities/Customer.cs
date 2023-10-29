@@ -12,7 +12,7 @@ public class Customer
    [Required]
    [MaxLength(50)]
    // TODO: Add unique constraint
-   public string Username { get; set; }
+   public string UserName { get; set; }
    [Required]
    [MaxLength(128)]
    public string PasswordHash { get; set; }
@@ -41,9 +41,9 @@ public class Customer
       
    }
 
-   public Customer(string username, string passwordHash, string salt, string email, string phoneNumber)
+   public Customer(string userName, string passwordHash, string salt, string email, string phoneNumber)
    {
-      Username = username;
+      UserName = userName;
       PasswordHash = passwordHash;
       Salt = salt;
       Email = email;

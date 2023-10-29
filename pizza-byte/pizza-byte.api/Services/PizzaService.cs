@@ -2,6 +2,7 @@ using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 using pizza_byte.api.Commons.Errors;
 using pizza_byte.api.Commons.Mappers;
+using pizza_byte.api.Commons.Wrappers;
 using pizza_byte.api.Entities;
 using pizza_byte.api.Persistence;
 using pizza_byte.contracts.pizza_byte;
@@ -18,20 +19,24 @@ public class PizzaService : IPizzaService
     }
 
 
-    public PizzaResponse PostPizza(PostPizzaRequest request)
+    public async Task<PizzaResponse> PostPizza(PostPizzaRequest request)
     {
         var pizza = PizzaMapper.PostMapToPizzaModel(request); 
+        
+        await _dbContext.Pizzas.AddAsync(pizza);
+        
         var response = PizzaMapper.MapToPizzaResponse(pizza);
  
-        _dbContext.Add(pizza);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
         return response;
     }
 
 
-    public Either<Error, PizzaResponse> GetPizzaById(Guid? id)
+    public async Task<Either<Error, PizzaResponse>> GetPizzaById(Guid? id)
     {
-        var pizza = _dbContext.Pizzas.AsNoTracking().FirstOrDefault(p => p.Id == id);
+        var pizza = await _dbContext.Pizzas
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
         if (pizza == null) return new PizzaNotFound();
         
         var response = PizzaMapper.MapToPizzaResponse(pizza); 
@@ -39,31 +44,31 @@ public class PizzaService : IPizzaService
         return response;
     }
 
-    public Either<Error, PizzaResponse> DeletePizza(Guid? id)
+    public async Task<Either<Error, PizzaResponse>> DeletePizza(Guid? id)
     {
 
-        var pizzaResult = _dbContext.Pizzas.FirstOrDefault(p => p.Id == id);
+        var pizzaResult = await _dbContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);
         
         if (pizzaResult == null) return new PizzaNotFound();
         
         _dbContext.Remove(pizzaResult);
         
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         return PizzaMapper.MapToPizzaResponse(pizzaResult);
     }
     
 
-     public Either<Error, PizzaResponse> PutPizza(Guid id, PutPizzaRequest request)
+     public async Task<Either<Error, PizzaResponse>> PutPizza(Guid id, PutPizzaRequest request)
      {
          
-         var existingPizza = _dbContext.Pizzas.FirstOrDefault(p => p.Id == id);
+         var existingPizza = await _dbContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);
          
          if (existingPizza == null) return new PizzaNotFound();
             
          PizzaMapper.PutMapToPizzaModel(existingPizza, request);
          
-         _dbContext.SaveChanges();
+         await _dbContext.SaveChangesAsync();
          
          return PizzaMapper.MapToPizzaResponse(existingPizza);
      }

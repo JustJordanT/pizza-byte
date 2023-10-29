@@ -31,9 +31,9 @@ public class PizzaController : ControllerBase
     } 
     
     [HttpGet("{id:guid}")]
-    public IActionResult GetPizza(Guid id)
+    public async Task<IActionResult> GetPizza(Guid id)
     {
-        var pizza = _pizzaService.GetPizzaById(id);
+        var pizza = await _pizzaService.GetPizzaById(id);
 
         return pizza.Match<ActionResult>(
            Ok,
@@ -42,9 +42,9 @@ public class PizzaController : ControllerBase
     }
        
     [HttpPut("{id:guid}")]
-    public IActionResult PutPizza(Guid id, PutPizzaRequest request)
+    public async Task<IActionResult> PutPizza(Guid id, PutPizzaRequest request)
     {
-       var pizza = _pizzaService.PutPizza(id, request);
+       var pizza = await _pizzaService.PutPizza(id, request);
         return pizza.Match<ActionResult>(
             Ok,
             e => NotFound()
@@ -52,9 +52,9 @@ public class PizzaController : ControllerBase
     }
     
     [HttpDelete("{id:guid}")]
-    public IActionResult DeletePizza(Guid id)
+    public async Task<IActionResult> DeletePizza(Guid id)
     {
-        var pizza = _pizzaService.DeletePizza(id);
+        var pizza = await _pizzaService.DeletePizza(id);
         return pizza.Match<ActionResult>(
             _ => NoContent(),
             e => NotFound()

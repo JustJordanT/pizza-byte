@@ -23,7 +23,7 @@ public static class CustomerMapper
           var response = new CustomerResponse
           {
                Id = customer.Id,
-               UserName = customer.Username,
+               UserName = customer.UserName,
                Email = customer.Email,
                PhoneNumber = customer.PhoneNumber,
                CreatedAt = customer.CreatedAt,
@@ -35,7 +35,7 @@ public static class CustomerMapper
      
      public static Customer PutMapToCustomerModel(Customer customer, PutCustomerRequest request)
      {
-          customer.Username = request.UserName;
+          customer.UserName = request.UserName;
           customer.Email = request.Email;
           // customer.PasswordHash = //TODO: Hash the password
           // customer.PasswordSalt = //TODO: Salt the password

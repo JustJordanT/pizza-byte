@@ -31,11 +31,14 @@ public class CustomerService : ICustomerService
         return CustomerMapper.MapToCustomerResponse(customer);
     }
 
-    public async Task<Either<Error, Customer>> GetCustomerById(Guid? id, CancellationToken cancellationToken)
+    public async Task<Either<Error, CustomerResponse>> GetCustomerById(Guid? id, CancellationToken cancellationToken)
     {
-        var customer = await _dbContext.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
+        var customer = await _dbContext.Customers
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
         if (customer == null) return new CustomerNotFound();
-        return customer;
+        
+        return CustomerMapper.MapToCustomerResponse(customer);
     }
 
     public async Task<Either<Error, ActionResult>> PutCustomer(Guid id, PutCustomerRequest request, CancellationToken cancellationToken)

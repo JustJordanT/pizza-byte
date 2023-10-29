@@ -12,4 +12,5 @@ public class PutPizzaRequest
     public string? Crust { get; init; }
     [JsonPropertyName("price")]
     public string? Size { get; init; }
+    [JsonPropertyName("cart_id")] public Guid CartId { get; init; }
 }

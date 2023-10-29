@@ -10,7 +10,7 @@ namespace pizza_byte.api.Services;
 public interface ICustomerService
 {
     public Task<CustomerResponse> PostCustomer(PostCustomerRequest request, CancellationToken cancellationToken);
-    public Task<Either<Error, Customer>> GetCustomerById(Guid? id, CancellationToken cancellationToken);
+    public Task<Either<Error, CustomerResponse>> GetCustomerById(Guid? id, CancellationToken cancellationToken);
     Task<Either<Error, ActionResult>> DeleteCustomer(Guid? id, CancellationToken cancellationToken);
     public Task<Either<Error, ActionResult>> PutCustomer(Guid id, PutCustomerRequest request, CancellationToken cancellationToken);   
 }
