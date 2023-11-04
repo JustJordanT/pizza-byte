@@ -3,7 +3,7 @@ using pizza_byte.api.Persistence;
 using pizza_byte.api.Services;
 using pizza_byte.contracts.pizza_byte;
 
-namespace pizza_byte.tests.UnitTests;
+namespace pizza_byte.tests.IntegrationTests;
 
 public class PizzaServiceTests
 {

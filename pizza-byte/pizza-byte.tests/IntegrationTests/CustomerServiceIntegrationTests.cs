@@ -1,21 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using pizza_byte.api.Commons.Mappers;
 using pizza_byte.api.Persistence;
 using pizza_byte.api.Services;
-using pizza_byte.contracts.pizza_byte;
 using pizza_byte.contracts.pizza_byte.Customer;
-using Xunit.Abstractions;
 
-namespace pizza_byte.tests.UnitTests;
+namespace pizza_byte.tests.IntegrationTests;
 
-public class CustomerServiceUnitTests
+public class CustomerServiceIntegrationTests
 {
-    private readonly ITestOutputHelper _output;
-
-    public CustomerServiceUnitTests(ITestOutputHelper output)
-    {
-        _output = output;
-    }
     
     [Fact]
     public async Task PostCustomer_SavesCustomerAndReturnsResponse()

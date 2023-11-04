@@ -24,9 +24,9 @@ public class PizzaController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult PostPizza(PostPizzaRequest request)
+    public async Task<IActionResult> PostPizza(PostPizzaRequest request)
     {
-        var response = _pizzaService.PostPizza(request);
+        var response = await _pizzaService.PostPizza(request);
         return CreatedAtAction(nameof(GetPizza),response, new {id = response.Id});
     } 
     
