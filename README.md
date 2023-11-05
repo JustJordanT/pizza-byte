@@ -1,4 +1,6 @@
 #  Pizza Byte. 
+[![wakatime](https://wakatime.com/badge/github/JustJordanT/pizza-byte.svg)](https://wakatime.com/badge/github/JustJordanT/pizza-byte)
+
 A pizza application, used for testing out different patterns in software architecture.
 
 ![DALL·E Cartoon Pizza Illustration](https://github.com/JustJordanT/pizza-byte/assets/38886930/063817f6-6a0d-4a90-80ff-0cf759ff7bfb)
